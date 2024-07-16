@@ -3,7 +3,7 @@
 ## Techonologies
     - [x] React (+React Router, Bootstrap, Axios, Formik...) 
     - [x] Java Spring Boot(+Spring JWT Security, H2 Database...)
-    - [ ] MySQL, AWS
+    - [x] MySQL, AWS
     - [ ] JUnit
     - [ ] Flutter/React Native
 
@@ -26,11 +26,11 @@
 
 
 ## What's next?
-    * backend optimization, todos should be fetched faster
-    * mysql connection to the backend
-    * managing users, backend and frontend
-        * normal users will be able to manage their profiles, some attributes
-        * admins will be able to CRUD users
-    * sign up
-    * unit testing with JUnit
-    * mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)
+    [ ] backend optimization, todos should be fetched faster
+    [x] database connection with mysql and aws
+    [ ] managing users, backend and frontend
+        [ ] normal users will be able to manage their profiles, some attributes
+        [ ] admins will be able to CRUD users
+    [ ] sign up
+    [ ] unit testing with JUnit
+    [ ] mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)
