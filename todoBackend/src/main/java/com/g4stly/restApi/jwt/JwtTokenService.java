@@ -28,12 +28,18 @@ public class JwtTokenService {
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.joining(" "));
 
+        boolean isAdmin = authentication
+                        .getAuthorities()
+                        .stream()
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
         var claims = JwtClaimsSet.builder()
                         .issuer("self")
                         .issuedAt(Instant.now())
                         .expiresAt(Instant.now().plus(90, ChronoUnit.MINUTES))
                         .subject(authentication.getName())
                         .claim("scope", scope)
+                        .claim("isAdmin", isAdmin)
                         .build();
 
         return this.jwtEncoder

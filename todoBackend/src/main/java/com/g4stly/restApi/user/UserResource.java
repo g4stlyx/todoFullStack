@@ -2,6 +2,7 @@ package com.g4stly.restApi.user;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserResource {
     
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public UserResource(UserRepository userRepository){
+    public UserResource(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/users")
@@ -31,6 +34,8 @@ public class UserResource {
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user){
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
 
@@ -39,7 +44,8 @@ public class UserResource {
         User user = userRepository.findById(id).get();
         user.setUsername(userDetails.getUsername()); //! may be removed, there is no usage of it
         user.setAdmin(userDetails.isAdmin());
-        user.setPassword(userDetails.getPassword());
+        String hashedPassword = passwordEncoder.encode(userDetails.getPassword());
+        user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
 
