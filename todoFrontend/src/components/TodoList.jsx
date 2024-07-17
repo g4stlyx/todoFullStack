@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { retrieveAllTodosByUsernameApi, deleteTodoApi } from "./api/TodoApiService";
+import { getAllTodosByUsernameApi, deleteTodoApi } from "./api/TodoApiService";
 import { useAuth } from "./security/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from 'react-bootstrap';
@@ -18,7 +18,7 @@ export default function TodoList() {
   const navigate = useNavigate();
 
   function refreshTodos() {
-    retrieveAllTodosByUsernameApi(username)
+    getAllTodosByUsernameApi(username)
       .then((response) => {
         console.log("API Response:", response);
         if (Array.isArray(response.data)) {

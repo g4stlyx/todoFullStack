@@ -4,6 +4,7 @@ import { useAuth } from "./security/AuthContext";
 export default function Header() {
   const authContext = useAuth();
   const isAuthenticated = authContext.isAuthenticated;
+  const isAdmin = authContext.isAdmin;
 
   return (
     <div className="Header border-bottom border-light border-5 mb-5 p-2">
@@ -36,6 +37,16 @@ export default function Header() {
               <li className="nav-item fs-5">
                 {!isAuthenticated && <Link className="nav-link" to="/login">
                   Login
+                </Link>}
+              </li>
+              <li className="nav-item fs-5">
+                {isAdmin && isAuthenticated && <Link className="nav-link" to="/administrator/users" onClick={()=>console.log("administrator/users")}>
+                  Users
+                </Link>}
+              </li>
+              <li className="nav-item fs-5">
+                {isAuthenticated && <Link className="nav-link" to="/profile" onClick={()=>console.log("profile")}>
+                  Profile
                 </Link>}
               </li>
               <li className="nav-item fs-5">

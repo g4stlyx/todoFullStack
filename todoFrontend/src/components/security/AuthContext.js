@@ -10,6 +10,7 @@ export default function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState(null);
   const [token, setToken] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const storedToken = sessionStorage.getItem("token");
 
@@ -22,6 +23,7 @@ export default function AuthProvider({ children }) {
         setToken(storedToken);
         setIsAuthenticated(true);
         setUsername(decodedToken.sub);
+        setIsAdmin(decodedToken.isAdmin);
 
         apiClient.interceptors.request.use((config) => {
           config.headers.Authorization = storedToken;
@@ -46,6 +48,7 @@ export default function AuthProvider({ children }) {
         setIsAuthenticated(true);
         setUsername(username);
         setToken(jwtToken);
+        setIsAdmin(response.data.token.isAdmin);
 
         sessionStorage.setItem("token", jwtToken);
 
@@ -83,7 +86,7 @@ export default function AuthProvider({ children }) {
     token,
     setToken,
     storedToken,
-    
+    isAdmin    
   };
 
   return (

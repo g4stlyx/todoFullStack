@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { retrieveTodoApi, updateTodoApi, createTodoApi } from "./api/TodoApiService"
+import { getTodoApi, updateTodoApi, createTodoApi } from "./api/TodoApiService"
 import { useAuth } from "./security/AuthContext"
 import { useEffect, useState } from "react"
 import { ErrorMessage, Field, Form, Formik } from "formik"
@@ -22,7 +22,7 @@ export default function Todo(){
 
     function retrieveTodos(){
         if(id !== -1){
-            retrieveTodoApi(username,id)
+            getTodoApi(username,id)
             .then(response => {
                 setDescription(response.data.description)
                 setTargetDate(response.data.targetDate)
