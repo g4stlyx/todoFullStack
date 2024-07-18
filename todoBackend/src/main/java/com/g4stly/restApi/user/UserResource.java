@@ -27,9 +27,14 @@ public class UserResource {
         return userRepository.findAll();
     }
 
-    @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable int id){
-        return userRepository.findById(id).get();
+    // @GetMapping("/users/{id}")
+    // public User getUserById(@PathVariable int id){
+    //     return userRepository.findById(id).get();
+    // }
+
+    @GetMapping("/users/{username}")
+    public User getUserById(@PathVariable String username){
+        return userRepository.findByUsername(username).get();
     }
 
     @PostMapping("/users")
@@ -39,10 +44,19 @@ public class UserResource {
         return userRepository.save(user);
     }
 
-    @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody User userDetails){
-        User user = userRepository.findById(id).get();
-        user.setUsername(userDetails.getUsername()); //! may be removed, there is no usage of it
+    // @PutMapping("/users/{id}")
+    // public User updateUser(@PathVariable int id, @RequestBody User userDetails){
+    //     User user = userRepository.findById(id).get();
+    //     user.setUsername(userDetails.getUsername()); //! may be removed, there is no usage of it
+    //     user.setAdmin(userDetails.isAdmin());
+    //     String hashedPassword = passwordEncoder.encode(userDetails.getPassword());
+    //     user.setPassword(hashedPassword);
+    //     return userRepository.save(user);
+    // }
+
+    @PutMapping("/users/{username}")
+    public User updateUser(@PathVariable String username, @RequestBody User userDetails){
+        User user = userRepository.findByUsername(username).get();
         user.setAdmin(userDetails.isAdmin());
         String hashedPassword = passwordEncoder.encode(userDetails.getPassword());
         user.setPassword(hashedPassword);
