@@ -14,7 +14,8 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Spinner } from 'react-bootstrap';
 import Profile from "./components/Profile";
-import Users from "./components/Users";
+import UserList from "./components/UserList";
+import User from "./components/User";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
@@ -94,19 +95,27 @@ function App() {
           }
         />
         <Route
-          path="/profile"
+          path="/users/:username"
           element={
             <AuthenticatedRoute>
               <Profile />
             </AuthenticatedRoute>
           }
         />
-        {/* //TODO: users page will be protected, only admins will be able to see it. */}
+        {/* //TODO: this page will be protected, only admins will be able to see it. */}
+        <Route
+          path="/administrator/users/:username"
+          element={
+            <AuthenticatedRoute>
+              <User />
+            </AuthenticatedRoute>
+          }
+        />
         <Route
           path="/administrator/users"
           element={
             <AuthenticatedRoute>
-              <Users />
+              <UserList />
             </AuthenticatedRoute>
           }
         />
