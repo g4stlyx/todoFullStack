@@ -40,12 +40,12 @@ export default function Header() {
                 </Link>}
               </li>
               <li className="nav-item fs-5">
-                {isAdmin && isAuthenticated && <Link className="nav-link" to="/administrator/users" onClick={()=>console.log("administrator/users")}>
+                {isAdmin && isAuthenticated && <Link className="nav-link" to="/administrator/users">
                   Users
                 </Link>}
               </li>
               <li className="nav-item fs-5">
-                {isAuthenticated && <Link className="nav-link" to="/profile" onClick={()=>console.log("profile")}>
+                {isAuthenticated && <Link className="nav-link" to="/profile">
                   Profile
                 </Link>}
               </li>
