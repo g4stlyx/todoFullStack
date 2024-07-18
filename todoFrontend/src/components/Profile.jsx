@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserByIdApi, updateUserApi } from './api/UserApiService'; // Replace with actual API service
-import { useAuth } from './security/AuthContext';
+import { getUserByUsernameApi, updateUserApi } from './api/UserApiService'; // Replace with actual API service
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useAuth } from './security/AuthContext';
+
+//TODO: password will be decoded before be shown to the user
+//TODO: there will be a 2nd password field, after checking they are same request will be sent
+//TODO: if successful, show a message that saying the ps was successfully done
 
 function Profile() {
     const authContext = useAuth();
+    const username = authContext.username
+    const isAdmin = authContext.isAdmin
     const navigate = useNavigate();
-    const username = authContext.username;
 
-    const [user, setUser] = useState({ name: '', password: '' });
+    const [password, setPassword] = useState('')
 
     useEffect(() => {
         retrieveUser();
     }, []);
 
     function retrieveUser() {
-        getUserByIdApi(username)
+        getUserByUsernameApi(username)
             .then(response => {
-                setUser(response.data);
+                setPassword(response.data.password)
             })
             .catch(error => console.log(error));
     }
 
     function onSubmit(values) {
-        const updatedUser = { ...user, ...values };
+        setPassword(values.password)
+        const updatedUser = {username, password: values.password, isAdmin}
         updateUserApi(username, updatedUser)
             .then(response => {
                 navigate('/profile');
@@ -34,9 +40,6 @@ function Profile() {
 
     function validate(values) {
         let errors = {};
-        if (!values.username) {
-            errors.username = 'Username is required';
-        }
         if (!values.password) {
             errors.password = 'Password is required';
         }
@@ -49,7 +52,7 @@ function Profile() {
             <h3>Since users have only 3 fields, profile page seems unnecessary now lol</h3>
             <div>
                 <Formik
-                    initialValues={user}
+                    initialValues={{password}}
                     enableReinitialize={true}
                     onSubmit={onSubmit}
                     validate={validate}
@@ -58,16 +61,10 @@ function Profile() {
                 >
                     {props => (
                         <Form>
-                            <ErrorMessage name="username" component="div" className="alert alert-warning" />
                             <ErrorMessage name="password" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
-                                <label>Username</label>
-                                <Field type="text" className="form-control" name="username" />
-                            </fieldset>
-                            <fieldset className="form-group">
                                 <label>Password</label>
-                                {/* //TODO: Type may be password. */}
-                                <Field type="text" className="form-control" name="password" /> 
+                                <Field type="password" className="form-control" name="password" /> 
                             </fieldset>
                             <button className="btn btn-success mt-3" type="submit">Save</button>
                         </Form>
