@@ -8,6 +8,11 @@
     - [ ] Flutter/React Native
 
 ## How to Run/Use the App
+    *first of all, you have to have a mysql database for everything to function properly.
+        then connect it via application.properties in the backend folder.(/src/main/resources)
+    
+    -----
+
     * to run the api, open 01-Backend folder as a Java Maven project:
         * run `mvn spring-boot:run` in terminal or
         * simply compile and run the java app from your IDE
@@ -24,14 +29,15 @@
     [ ] backend optimization, todos should be fetched faster
     [x] database connection with mysql and aws
     [ ] managing users
-        [ ] normal users will be able to manage their profiles, some attributes
+        [x] users will be able to manage their profiles, some attributes (only pwd actually)
         [ ] admins will be able to CRUD users
         [ ] "profile" and "users" pages
         [ ] another protection for "users", only admins will be able to see that page
         [ ] can i see other users' profiles using their ids or usernames in url? i shouldnt
     [ ] sign up
     [ ] validations
-        [ ] field validations with spring in backend
+        [ ] field validations with spring in backend (password, username length. also validation for todos)
         [ ] input validations in frontend (use <Formik validate={validate}>)
+    [ ] footer
     [ ] unit testing with JUnit
     [ ] mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)

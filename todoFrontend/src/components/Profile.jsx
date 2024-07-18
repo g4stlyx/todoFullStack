@@ -1,78 +1,116 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getUserByUsernameApi, updateUserApi } from './api/UserApiService'; // Replace with actual API service
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useAuth } from './security/AuthContext';
-
-//TODO: password will be decoded before be shown to the user
-//TODO: there will be a 2nd password field, after checking they are same request will be sent
-//TODO: if successful, show a message that saying the ps was successfully done
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getUserByUsernameApi, updateUserApi } from "./api/UserApiService";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useAuth } from "./security/AuthContext";
 
 function Profile() {
-    const authContext = useAuth();
-    const username = authContext.username
-    const isAdmin = authContext.isAdmin
-    const navigate = useNavigate();
+  const authContext = useAuth();
+  const username = authContext.username;
+  const isAdmin = authContext.isAdmin;
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
-    const [password, setPassword] = useState('')
+  useEffect(() => {
+    retrieveUser();
+  }, []);
 
-    useEffect(() => {
-        retrieveUser();
-    }, []);
+  function retrieveUser() {
+    getUserByUsernameApi(username)
+      .then((response) => {
+      })
+      .catch((error) => console.log(error));
+  }
 
-    function retrieveUser() {
-        getUserByUsernameApi(username)
-            .then(response => {
-                setPassword(response.data.password)
-            })
-            .catch(error => console.log(error));
+  function onSubmit(values, { setSubmitting, resetForm }) {
+    if (values.password === values.password2) {
+      const updatedUser = { username, password: values.password, isAdmin };
+      updateUserApi(username, updatedUser)
+        .then((response) => {
+          setMessage("Password updated successfully.");
+          resetForm();
+          setTimeout(() => {
+            setMessage("");
+            navigate("/profile");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.log(error);
+          setMessage("Failed to update password.");
+        })
+        .finally(() => {
+          setSubmitting(false);
+        });
     }
+  }
 
-    function onSubmit(values) {
-        setPassword(values.password)
-        const updatedUser = {username, password: values.password, isAdmin}
-        updateUserApi(username, updatedUser)
-            .then(response => {
-                navigate('/profile');
-            })
-            .catch(error => console.log(error));
+  function validate(values) {
+    let errors = {};
+    if (!values.password || !values.password2) {
+      errors.password = "Password is required!";
     }
-
-    function validate(values) {
-        let errors = {};
-        if (!values.password) {
-            errors.password = 'Password is required';
-        }
-        return errors;
+    if (values.password !== values.password2) {
+      errors.password = "Passwords should match!";
     }
+    return errors;
+  }
 
-    return (
-        <div className="container">
-            <h1>User Profile</h1>
-            <h3>Since users have only 3 fields, profile page seems unnecessary now lol</h3>
-            <div>
-                <Formik
-                    initialValues={{password}}
-                    enableReinitialize={true}
-                    onSubmit={onSubmit}
-                    validate={validate}
-                    validateOnChange={false}
-                    validateOnBlur={false}
+  return (
+    <div className="container">
+      <h1>Profile</h1>
+      <h4>
+        Since users have only 3 parameters -only 1 changeable-, profile page seems unnecessary now lol
+      </h4>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Formik
+          initialValues={{ password: "", password2: "" }}
+          enableReinitialize={true}
+          onSubmit={onSubmit}
+          validate={validate}
+          validateOnChange={false}
+          validateOnBlur={false}
+        >
+          {(props) => (
+            <Form>
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="alert alert-warning"
+              />
+              {message && <div className="alert alert-info">{message}</div>}
+              <fieldset className="form-group" style={{ textAlign: 'center' }}>
+                <label>Password</label>
+                <Field
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  style={{ width: "300px", margin: "0 auto" }}
+                />
+              </fieldset>
+              <fieldset className="form-group" style={{ textAlign: 'center' }}>
+                <label>Confirm Password</label>
+                <Field
+                  type="password"
+                  className="form-control"
+                  name="password2"
+                  style={{ width: "300px", margin: "0 auto" }}
+                />
+              </fieldset>
+              <div style={{ textAlign: 'center' }}>
+                <button
+                  className="btn btn-success mt-3"
+                  type="submit"
+                  disabled={props.isSubmitting}
                 >
-                    {props => (
-                        <Form>
-                            <ErrorMessage name="password" component="div" className="alert alert-warning" />
-                            <fieldset className="form-group">
-                                <label>Password</label>
-                                <Field type="password" className="form-control" name="password" /> 
-                            </fieldset>
-                            <button className="btn btn-success mt-3" type="submit">Save</button>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-        </div>
-    );
+                  Save
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
+  );
 }
 
 export default Profile;
