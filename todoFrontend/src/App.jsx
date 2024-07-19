@@ -8,52 +8,12 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Logout from "./components/Logout";
 import Todo from "./components/Todo";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { useAuth } from "./components/security/AuthContext";
-import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
-import { Spinner } from 'react-bootstrap';
+import { Routes, Route } from "react-router-dom";
 import Profile from "./components/Profile";
 import UserList from "./components/UserList";
 import User from "./components/User";
-
-function AuthenticatedRoute({ children }) {
-  const authContext = useAuth();
-  const storedToken = authContext.storedToken;
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (storedToken) {
-      const decodedToken = jwtDecode(storedToken.replace("Bearer ", ""));
-      const currentTime = Date.now() / 1000;
-
-      if (decodedToken.exp > currentTime) {
-        authContext.setToken(storedToken);
-        authContext.setIsAuthenticated(true);
-        authContext.setUsername(decodedToken.sub);
-        setIsLoading(false);
-      } else {
-        sessionStorage.removeItem("token");
-        navigate("/login");
-      }
-    } else {
-      navigate("/login");
-    }
-  }, [storedToken, authContext, navigate]);
-
-  if (isLoading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
-    </div>
-    )
-  }
-
-  return children;
-}
+import AdminRoute from "./components/security/AdminRoute";
+import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 
 function App() {
   return (
@@ -102,21 +62,20 @@ function App() {
             </AuthenticatedRoute>
           }
         />
-        {/* //TODO: this page will be protected, only admins will be able to see it. */}
         <Route
           path="/administrator/users/:username"
           element={
-            <AuthenticatedRoute>
+            <AdminRoute>
               <User />
-            </AuthenticatedRoute>
+            </AdminRoute>
           }
         />
         <Route
           path="/administrator/users"
           element={
-            <AuthenticatedRoute>
+            <AdminRoute>
               <UserList />
-            </AuthenticatedRoute>
+            </AdminRoute>
           }
         />
         <Route path="*" element={<Error />} />

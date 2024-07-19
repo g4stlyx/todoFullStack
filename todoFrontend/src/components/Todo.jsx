@@ -14,22 +14,31 @@ export default function Todo(){
 
     const [description, setDescription] = useState('')
     const [targetDate, setTargetDate] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
 
 
     useEffect(()=>{
         retrieveTodos()
     }, [id])
 
-    function retrieveTodos(){
-        if(id !== -1){
-            getTodoApi(username,id)
-            .then(response => {
-                setDescription(response.data.description)
-                setTargetDate(response.data.targetDate)
-            })
-            .catch(error => console.log(error))
+    function retrieveTodos() {
+        if (id !== -1) {
+            getTodoApi(username, id)
+                .then(response => {
+                    setDescription(response.data.description);
+                    setTargetDate(response.data.targetDate);
+                    setErrorMessage('');
+                })
+                .catch(error => {
+                    if (error.response && error.response.status === 403) {
+                        setErrorMessage("You are not authorized to view this todo.");
+                    } 
+                    // else {
+                    //     setErrorMessage("An error occurred while retrieving the todo.");
+                    // }
+                    console.error(error);
+                });
         }
-
     }
     
     function onSubmit(values){
@@ -39,8 +48,12 @@ export default function Todo(){
             id, username, description: values.description, targetDate: values.targetDate, isDone: false
         }
         if(id===-1){
+            console.log(username);
+            console.log(id);
+            console.log(todo);
             createTodoApi(username, id, todo)
             .then(response => {
+                console.log(response);
                 navigate("/todos")
             })
             .catch(err=> console.log(err))
@@ -50,7 +63,14 @@ export default function Todo(){
             .then(response => {
                 navigate("/todos")
             })
-            .catch(err=> console.log(err))
+            .catch(err => {
+                if (err.response && err.response.status === 403) {
+                    setErrorMessage("You are not authorized to update this todo.");
+                } else {
+                    setErrorMessage("An error occurred while updating the todo.");
+                }
+                console.error(err);
+            });
         }
     }
 
@@ -68,6 +88,8 @@ export default function Todo(){
     return(
         <div className="container">
             <h1>Enter Todo Details</h1>
+            {console.log(errorMessage)}
+            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             <div>
                 <Formik initialValues={{description,targetDate}} enableReinitialize={true} onSubmit= {onSubmit} validate={validate} validateOnChange={false} validateOnBlur={false}>
                     {

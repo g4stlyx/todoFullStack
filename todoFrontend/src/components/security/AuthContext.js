@@ -86,7 +86,8 @@ export default function AuthProvider({ children }) {
     token,
     setToken,
     storedToken,
-    isAdmin    
+    isAdmin,
+    setIsAdmin  
   };
 
   return (
