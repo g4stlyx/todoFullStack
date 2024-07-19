@@ -39,11 +39,11 @@ export default function UserList() {
   }
 
   function updateUser(username){
-      navigate(`/users/${username}`)
+      navigate(`/administrator/users/${username}`)
   }
 
   function addNewUser(){
-      navigate(`/users/-1`)
+      navigate(`/administrator/users/-1`)
   }
 
   if (isLoading) {

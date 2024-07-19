@@ -95,7 +95,7 @@ function App() {
           }
         />
         <Route
-          path="/users/:username"
+          path="/profile"
           element={
             <AuthenticatedRoute>
               <Profile />
