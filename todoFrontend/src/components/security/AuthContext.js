@@ -41,7 +41,6 @@ export default function AuthProvider({ children }) {
         username,
         password
       );
-      console.log(response);
 
       if (response.status === 200) {
         const jwtToken = "Bearer " + response.data.token;

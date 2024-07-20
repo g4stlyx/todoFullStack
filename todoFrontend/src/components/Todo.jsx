@@ -9,6 +9,9 @@ export default function Todo(){
     const authContext = useAuth()
     const navigate = useNavigate()
 
+    // TODO: id int değilse backend 400 bad request veriyor, bunu frontend'de göster.
+    // TODO: id ile todo bulamazsa 404 veriyor, bunu frontend'de göster.
+
     const {id} = useParams()
     const username = authContext.username
 
@@ -17,9 +20,11 @@ export default function Todo(){
     const [errorMessage, setErrorMessage] = useState('')
 
 
-    useEffect(()=>{
-        retrieveTodos()
-    }, [id])
+    useEffect(() => {
+        if (id !== '-1') {
+            retrieveTodos();
+        }
+    }, [id]);
 
     function retrieveTodos() {
         if (id !== -1) {
@@ -41,36 +46,39 @@ export default function Todo(){
         }
     }
     
-    function onSubmit(values){
-        setDescription(values.description)
-        setTargetDate(values.targetDate)
+    function onSubmit(values) {
+        setDescription(values.description);
+        setTargetDate(values.targetDate);
+    
         const todo = {
-            id, username, description: values.description, targetDate: values.targetDate, isDone: false
-        }
-        if(id===-1){
-            console.log(username);
-            console.log(id);
-            console.log(todo);
-            createTodoApi(username, id, todo)
-            .then(response => {
-                console.log(response);
-                navigate("/todos")
-            })
-            .catch(err=> console.log(err))
-        }
-        else{
+            username,
+            description: values.description,
+            targetDate: values.targetDate,
+            isDone: false
+        };
+    
+        if (id === '-1') {
+            createTodoApi(username, todo)
+                .then(response => {
+                    navigate("/todos");
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else {
+            todo.id = id;
             updateTodoApi(username, id, todo)
-            .then(response => {
-                navigate("/todos")
-            })
-            .catch(err => {
-                if (err.response && err.response.status === 403) {
-                    setErrorMessage("You are not authorized to update this todo.");
-                } else {
-                    setErrorMessage("An error occurred while updating the todo.");
-                }
-                console.error(err);
-            });
+                .then(response => {
+                    navigate("/todos");
+                })
+                .catch(err => {
+                    if (err.response && err.response.status === 403) {
+                        setErrorMessage("You are not authorized to update this todo.");
+                    } else {
+                        setErrorMessage("An error occurred while updating the todo.");
+                    }
+                    console.error(err);
+                });
         }
     }
 
@@ -88,7 +96,6 @@ export default function Todo(){
     return(
         <div className="container">
             <h1>Enter Todo Details</h1>
-            {console.log(errorMessage)}
             {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             <div>
                 <Formik initialValues={{description,targetDate}} enableReinitialize={true} onSubmit= {onSubmit} validate={validate} validateOnChange={false} validateOnBlur={false}>

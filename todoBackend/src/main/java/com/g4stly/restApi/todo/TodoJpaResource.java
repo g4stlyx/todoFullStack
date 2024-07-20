@@ -1,7 +1,6 @@
 package com.g4stly.restApi.todo;
 
 import java.util.List;
-
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +25,6 @@ public class TodoJpaResource {
 	public List<Todo> retrieveTodos(@PathVariable String username) {
 		return todoRepository.findByUsername(username);
 	}
-
-	// @GetMapping("/users/{username}/todos/{id}")
-	// public Todo retrieveTodo(@PathVariable String username,
-	// @PathVariable int id) {
-	// return todoRepository.findById(id).get();
-	// }
 
 	@GetMapping("/users/{username}/todos/{id}")
 	public ResponseEntity<Todo> retrieveTodo(
@@ -60,13 +53,6 @@ public class TodoJpaResource {
 		todoRepository.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
-
-	// @PutMapping("/users/{username}/todos/{id}")
-	// public Todo updateTodo(@PathVariable String username,
-	// @PathVariable int id, @RequestBody Todo todo) {
-	// todoRepository.save(todo);
-	// return todo;
-	// }
 
 	@PutMapping("/users/{username}/todos/{id}")
 	public ResponseEntity<Todo> updateTodo(

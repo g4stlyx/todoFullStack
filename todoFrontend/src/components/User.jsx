@@ -3,10 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUserByUsernameApi, updateUserApi, createUserApi } from "./api/UserApiService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 
-/*
-TODO: /administrator url'i sadece adminlere açık olacak
-*/
-
 function User() {
   const {username} = useParams()
   const navigate = useNavigate();
@@ -14,7 +10,7 @@ function User() {
   const [initialValues, setInitialValues] = useState({
     username: "",
     password: "",
-    isAdmin: "false",
+    admin: "false",
   });
 
   useEffect(() => {
@@ -43,7 +39,7 @@ function User() {
     const userPayload = {
       username: values.username,
       password: values.password,
-      isAdmin: values.isAdmin === "true",
+      admin: values.admin === "true",
     };
 
     if (username === "-1") {
@@ -70,7 +66,7 @@ function User() {
           resetForm();
           setTimeout(() => {
             setMessage("");
-            navigate("/users");
+            navigate("/administrator/users");
           }, 2000);
         })
         .catch((error) => {
@@ -143,12 +139,12 @@ function User() {
               <fieldset className="form-group" style={{ textAlign: 'center' }}>
                 <label>Admin? </label>
                 <div>
-                  <Field type="radio" name="isAdmin" value="true" />
-                  <label htmlFor="isAdmin">Yes</label>
+                  <Field type="radio" name="admin" value="true" />
+                  <label htmlFor="admin">Yes</label>
                 </div>
                 <div>
-                  <Field type="radio" name="isAdmin" value="false" />
-                  <label htmlFor="isAdmin">No</label>
+                  <Field type="radio" name="admin" value="false" />
+                  <label htmlFor="admin">No</label>
                 </div>
               </fieldset>
 

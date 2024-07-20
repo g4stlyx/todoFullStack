@@ -36,14 +36,16 @@
         [x] "profile" and "users" pages
         [x] another protection for "users", only admins will be able to see that page
         [x] can i see other users' profiles using their ids or usernames in url? i shouldnt
-    [ ] sign up
+    [ ] sign up logic and page
+    [ ] better error handling in frontend
     [ ] validations
         [ ] field validations with spring in backend (password, username length. also validation for todos)
         [ ] input validations in frontend (use <Formik validate={validate}>)
+        [ ] username's must be unique
     [ ] footer
     [ ] unit testing with JUnit
     [ ] documentation with swagger
     [ ] .tsx in .jsx out?
     [ ] better frontend with css? (can be used material ui or bootstrap; or can be skipped entirely)
     [ ] mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)
-    
+

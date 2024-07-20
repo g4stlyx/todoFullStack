@@ -77,7 +77,7 @@ export default function UserList() {
               <td>{user.id}</td>
               <td>{user.username}</td>
               <td>{user.password}</td>
-              <td>{user.isAdmin ? "true" : "false"}</td>
+              <td>{user.admin ? "true" : "false"}</td>
               <td>
                 <button className="btn btn-danger" onClick={()=> deleteUser(user.id)}>DELETE</button>
               </td>
