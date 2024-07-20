@@ -43,7 +43,7 @@
         [ ] field validations with spring in backend (password, username length. also validation for todos)
         [x] input validations in frontend (use <Formik validate={validate}>)
         [ ] username's must be unique
-    [ ] footer
+    [x] footer
     [ ] unit testing with JUnit
     [ ] documentation with swagger
     [ ] .tsx in .jsx out?
