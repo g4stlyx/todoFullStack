@@ -49,7 +49,7 @@ function User() {
           resetForm();
           setTimeout(() => {
             setMessage("");
-            navigate("/users");
+            navigate("/administrator/users");
           }, 2000);
         })
         .catch((error) => {

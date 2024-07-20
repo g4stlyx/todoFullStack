@@ -36,8 +36,9 @@
         [x] "profile" and "users" pages
         [x] another protection for "users", only admins will be able to see that page
         [x] can i see other users' profiles using their ids or usernames in url? i shouldnt
+        [ ] admins should be able to see other users' todos
     [ ] sign up logic and page
-    [ ] better error handling in frontend
+    [x] better error handling in frontend
     [ ] validations
         [ ] field validations with spring in backend (password, username length. also validation for todos)
         [ ] input validations in frontend (use <Formik validate={validate}>)

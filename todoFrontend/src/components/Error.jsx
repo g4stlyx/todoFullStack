@@ -1,13 +1,10 @@
-export default function Error(){
-    
-    //TODO: will take a message and show it instead of it, instead of one constant message for all errors.
-    
-    return(
-        <div className="Error">
-            <h1>Oops, something went bad!</h1>
-            <div>
-                The page you want to reach not found.
-            </div>
-        </div>
-    )
+export default function Error({ message, status }) {
+
+  return (
+    <div className="Error">
+      <h1>Oops, something went bad!</h1>
+      <h3>{message}</h3>
+      <h5>Status Code: {status}</h5>   
+    </div>
+  );
 }

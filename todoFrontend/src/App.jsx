@@ -78,7 +78,10 @@ function App() {
             </AdminRoute>
           }
         />
-        <Route path="*" element={<Error />} />
+        <Route path="/not-authorized" element={<Error message="You are NOT AUTHORIZED to see this page." status={403}/>} />
+        <Route path="/bad-request" element={<Error message="BAD REQUEST, you couldn't give what system wants :(" status={400}/>} />
+        <Route path="/server-error" element={<Error message="It's not you it's us :(" status={500} />} />
+        <Route path="*" element={<Error message="The page you want to reach NOT FOUND." status={404} />} />
       </Routes>
       <Footer />
     </div>

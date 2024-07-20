@@ -9,9 +9,6 @@ export default function Todo(){
     const authContext = useAuth()
     const navigate = useNavigate()
 
-    // TODO: id int değilse backend 400 bad request veriyor, bunu frontend'de göster.
-    // TODO: id ile todo bulamazsa 404 veriyor, bunu frontend'de göster.
-
     const {id} = useParams()
     const username = authContext.username
 
@@ -36,11 +33,19 @@ export default function Todo(){
                 })
                 .catch(error => {
                     if (error.response && error.response.status === 403) {
-                        setErrorMessage("You are not authorized to view this todo.");
+                        navigate("/not-authorized")
                     } 
-                    // else {
-                    //     setErrorMessage("An error occurred while retrieving the todo.");
-                    // }
+                    else if(error.response && error.response.status ===404){
+                        navigate("/not-found")
+                    }
+                    else if(error.response && error.response.status===400){
+                        navigate("/bad-request")
+                    }else if(error.response && error.response.status===500){
+                        navigate("server-error")
+                    }
+                    else {
+                        setErrorMessage("An error occurred while updating the todo.");
+                    }
                     console.error(error);
                 });
         }
@@ -71,13 +76,22 @@ export default function Todo(){
                 .then(response => {
                     navigate("/todos");
                 })
-                .catch(err => {
-                    if (err.response && err.response.status === 403) {
-                        setErrorMessage("You are not authorized to update this todo.");
-                    } else {
+                .catch(error => {
+                    if (error.response && error.response.status === 403) {
+                        navigate("/not-authorized")
+                    } 
+                    else if(error.response && error.response.status ===404){
+                        navigate("/not-found")
+                    }
+                    else if(error.response && error.response.status===400){
+                        navigate("/bad-request")
+                    }else if(error.response && error.response.status===500){
+                        navigate("server-error")
+                    }
+                    else {
                         setErrorMessage("An error occurred while updating the todo.");
                     }
-                    console.error(err);
+                    console.error(error);
                 });
         }
     }
