@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserByUsernameApi, updateUserApi, createUserApi } from "./api/UserApiService";
+import {
+  getUserByUsernameApi,
+  updateUserApi,
+  createUserApi,
+} from "./api/UserApiService";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 
 function User() {
-  const {username} = useParams()
+  const { username } = useParams();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [initialValues, setInitialValues] = useState({
@@ -81,12 +85,60 @@ function User() {
 
   function validate(values) {
     let errors = {};
+    
     if (!values.username) {
       errors.username = "Username is required!";
+    } else {
+      if (values.username.length < 3 || values.username.length > 20) {
+        errors.username = "Username must be between 3 and 20 characters long!";
+      }
+      if (!/^[a-zA-Z0-9_.]+$/.test(values.username)) {
+        errors.username =
+          "Username can only contain letters, numbers, underscores, or dots!";
+      }
+      if (/([_.])\1/.test(values.username)) {
+        errors.username =
+          "Username must not contain consecutive dots or underscores!";
+      }
+      if (/^[_.]/.test(values.username) || /[_.]$/.test(values.username)) {
+        errors.username =
+          "Username must not start or end with a dot or underscore!";
+      }
     }
+
     if (!values.password) {
       errors.password = "Password is required!";
+    } else {
+      if (values.password.length < 8) {
+        errors.password = "Password must be at least 8 characters long!";
+      }
+      if (values.password.length > 64) {
+        errors.password = "Password must not exceed 64 characters!";
+      }
+      if (!/[A-Z]/.test(values.password)) {
+        errors.password =
+          "Password must contain at least one uppercase letter!";
+      }
+      if (!/[a-z]/.test(values.password)) {
+        errors.password =
+          "Password must contain at least one lowercase letter!";
+      }
+      if (!/[0-9]/.test(values.password)) {
+        errors.password = "Password must contain at least one number!";
+      }
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
+        errors.password =
+          "Password must contain at least one special character!";
+      }
+      if (/\s/.test(values.password)) {
+        errors.password = "Password must not contain spaces!";
+      }
+      const commonPasswords = ["password", "123456", "qwerty", "abc123"];
+      if (commonPasswords.includes(values.password)) {
+        errors.password = "Password is too common!";
+      }
     }
+
     return errors;
   }
 
@@ -94,7 +146,7 @@ function User() {
     <div className="container">
       <h1>{username === "-1" ? "Create User" : "Edit User"}</h1>
       {message && <div className="alert alert-info">{message}</div>}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Formik
           initialValues={initialValues}
           enableReinitialize={true}
@@ -105,7 +157,7 @@ function User() {
         >
           {(props) => (
             <Form>
-              <fieldset className="form-group" style={{ textAlign: 'center' }}>
+              <fieldset className="form-group" style={{ textAlign: "center" }}>
                 <label>Username</label>
                 <Field
                   type="text"
@@ -120,8 +172,8 @@ function User() {
                   className="alert alert-warning"
                 />
               </fieldset>
-              
-              <fieldset className="form-group" style={{ textAlign: 'center' }}>
+
+              <fieldset className="form-group" style={{ textAlign: "center" }}>
                 <label>Password</label>
                 <Field
                   type="password"
@@ -136,7 +188,7 @@ function User() {
                 />
               </fieldset>
 
-              <fieldset className="form-group" style={{ textAlign: 'center' }}>
+              <fieldset className="form-group" style={{ textAlign: "center" }}>
                 <label>Admin? </label>
                 <div>
                   <Field type="radio" name="admin" value="true" />
@@ -148,7 +200,7 @@ function User() {
                 </div>
               </fieldset>
 
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: "center" }}>
                 <button
                   className="btn btn-success mt-3"
                   type="submit"

@@ -46,12 +46,44 @@ function Profile() {
 
   function validate(values) {
     let errors = {};
+
     if (!values.password || !values.password2) {
       errors.password = "Password is required!";
     }
+  
+    if (values.password.length < 8) {
+      errors.password = "Password must be at least 8 characters long!";
+    }
+  
+    if (values.password.length > 64) {
+      errors.password = "Password must not exceed 64 characters!";
+    }
+  
+    if (!/[A-Z]/.test(values.password)) {
+      errors.password = "Password must contain at least one uppercase letter!";
+    }
+  
+    if (!/[a-z]/.test(values.password)) {
+      errors.password = "Password must contain at least one lowercase letter!";
+    }
+  
+    if (!/[0-9]/.test(values.password)) {
+      errors.password = "Password must contain at least one number!";
+    }
+  
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
+      errors.password = "Password must contain at least one special character!";
+    }
+  
+    const commonPasswords = ["password", "123456", "qwerty", "abc123"];
+    if (commonPasswords.includes(values.password)) {
+      errors.password = "Password is too common!";
+    }
+  
     if (values.password !== values.password2) {
       errors.password = "Passwords should match!";
     }
+    
     return errors;
   }
 

@@ -41,7 +41,7 @@
     [x] better error handling in frontend
     [ ] validations
         [ ] field validations with spring in backend (password, username length. also validation for todos)
-        [ ] input validations in frontend (use <Formik validate={validate}>)
+        [x] input validations in frontend (use <Formik validate={validate}>)
         [ ] username's must be unique
     [ ] footer
     [ ] unit testing with JUnit
