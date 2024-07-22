@@ -57,8 +57,22 @@ function User() {
           }, 2000);
         })
         .catch((error) => {
-          console.log(error);
-          setMessage("Failed to create user.");
+          if (error.response.status === 409) {
+            setMessage("A user with that username already exists.");
+          } else if (error.response.status === 400) {
+            console.log(error);
+            if (error.response.data.username)
+              setMessage(
+                "Failed to create user: " + error.response.data.username
+              );
+            if (error.response.data.password)
+              setMessage(
+                "Failed to create user: " + error.response.data.password
+              );
+          } else {
+            console.log(error.response.data);
+            setMessage("Failed to create user.");
+          }
         })
         .finally(() => {
           setSubmitting(false);
@@ -74,8 +88,21 @@ function User() {
           }, 2000);
         })
         .catch((error) => {
-          console.log(error);
-          setMessage("Failed to update user.");
+          if (error.response.status === 409) {
+            setMessage("A user with that username already exists.");
+          } else if (error.response.status === 400) {
+            if (error.response.data.username)
+              setMessage(
+                "Failed to update user: " + error.response.data.username
+              );
+            if (error.response.data.password)
+              setMessage(
+                "Failed to update user: " + error.response.data.password
+              );
+          } else {
+            console.log(error);
+            setMessage("Failed to update user.");
+          }
         })
         .finally(() => {
           setSubmitting(false);
@@ -85,7 +112,7 @@ function User() {
 
   function validate(values) {
     let errors = {};
-    
+
     if (!values.username) {
       errors.username = "Username is required!";
     } else {
@@ -112,8 +139,8 @@ function User() {
       if (values.password.length < 8) {
         errors.password = "Password must be at least 8 characters long!";
       }
-      if (values.password.length > 64) {
-        errors.password = "Password must not exceed 64 characters!";
+      if (values.password.length > 32) {
+        errors.password = "Password must not exceed 32 characters!";
       }
       if (!/[A-Z]/.test(values.password)) {
         errors.password =
@@ -126,16 +153,12 @@ function User() {
       if (!/[0-9]/.test(values.password)) {
         errors.password = "Password must contain at least one number!";
       }
-      if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
+      if (!/[!@#$%^&*(),.?\":{}|<>]/.test(values.password)) {
         errors.password =
           "Password must contain at least one special character!";
       }
       if (/\s/.test(values.password)) {
         errors.password = "Password must not contain spaces!";
-      }
-      const commonPasswords = ["password", "123456", "qwerty", "abc123"];
-      if (commonPasswords.includes(values.password)) {
-        errors.password = "Password is too common!";
       }
     }
 
