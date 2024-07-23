@@ -232,6 +232,7 @@ function User() {
                   Save
                 </button>
               </div>
+              <br />
             </Form>
           )}
         </Formik>

@@ -28,7 +28,6 @@
         * run `flutter pub get || flutter run` in terminal
 
 ## What's next?
-    [ ] backend optimization, todos should be fetched faster
     [x] database connection with mysql and aws
     [x] managing users
         [x] users will be able to manage their profiles, some attributes (only pwd actually)
@@ -36,8 +35,7 @@
         [x] "profile" and "users" pages
         [x] another protection for "users", only admins will be able to see that page
         [x] can i see other users' profiles using their ids or usernames in url? i shouldnt
-        [ ] admins should be able to see other users' todos
-    [ ] sign up logic and page
+    [x] sign up logic and page
     [x] better error handling in frontend
     [x] validations
         [x] field validations with spring in backend (password, username length. also validation for todos)
@@ -49,4 +47,5 @@
     [ ] .tsx in .jsx out?
     [ ] better frontend with css? (can be used material ui or bootstrap; or can be skipped entirely)
     [ ] mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)
+    [ ] backend optimization, todos should be fetched faster
 

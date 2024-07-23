@@ -14,6 +14,8 @@ import UserList from "./components/UserList";
 import User from "./components/User";
 import AdminRoute from "./components/security/AdminRoute";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
+import SignUp from "./components/SignUp";
+import NonAuthenticatedRoute from "./components/security/NonAuthenticatedRoute";
 
 function App() {
   return (
@@ -22,7 +24,22 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <NonAuthenticatedRoute>
+                <Login />{" "}
+              </NonAuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/sign-up"
+            element={
+              <NonAuthenticatedRoute>
+                <SignUp />
+              </NonAuthenticatedRoute>
+            }
+          />
           <Route
             path="/welcome/:username"
             element={

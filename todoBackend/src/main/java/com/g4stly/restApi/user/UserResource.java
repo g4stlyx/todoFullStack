@@ -79,6 +79,37 @@ public class UserResource {
         }
     }
 
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@Valid @RequestBody User user) {
+    
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+    
+        if (!violations.isEmpty()) {
+            for (ConstraintViolation<User> violation : violations) {
+                System.out.println("Violation: " + violation.getMessage());
+            }
+            return new ResponseEntity<>("Password does not meet the criteria", HttpStatus.BAD_REQUEST);
+        }
+    
+        try {
+            String hashedPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(hashedPassword);
+            
+            user.setAdmin(false); //! to prevent users to create admins
+    
+            User savedUser = userRepository.save(user);
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            System.out.println("DataIntegrityViolationException: " + e.getMessage());
+            return new ResponseEntity<>("Username already exists", HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping("/users/{username}")
     public ResponseEntity<?> updateUser(@PathVariable String username, @Valid @RequestBody User userDetails) {
         try {

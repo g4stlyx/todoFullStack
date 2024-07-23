@@ -44,9 +44,14 @@ export default function Login(){
                     <input type="password" name="password" value={password} onChange={handlePasswordChange} />
                 </div>
                 <div>
-                    <button className="button loginButton" name="login" onClick={handleSubmit}>Login</button>
+                    <button className="btn btn-primary mt-3" name="login" onClick={handleSubmit}>Login</button>
+                </div>
+                <br />
+                <div>
+                    Dont't you have an account? <a href="/sign-up" name="signup">Sign Up.</a>
                 </div>
             </div>
+            <br />
         </div>
     )
 

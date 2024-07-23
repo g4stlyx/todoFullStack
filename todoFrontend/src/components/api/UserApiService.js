@@ -6,3 +6,4 @@ export const getUserByUsernameApi = (username) => apiClient.get(`/users/${userna
 export const deleteUserApi = (id) => apiClient.delete(`/users/${id}`)
 export const updateUserApi = (username, user) => apiClient.put(`/users/${username}`, user)
 export const createUserApi = (user) => apiClient.post("/users", user)
+export const signupApi = (user) => apiClient.post("/signup", user)
