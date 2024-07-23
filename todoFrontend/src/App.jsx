@@ -23,12 +23,19 @@ function App() {
       <div>
         <Header />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <NonAuthenticatedRoute>
+                <Login />
+              </NonAuthenticatedRoute>
+            }
+          />
           <Route
             path="/login"
             element={
               <NonAuthenticatedRoute>
-                <Login />{" "}
+                <Login />
               </NonAuthenticatedRoute>
             }
           />

@@ -1,5 +1,7 @@
 # Todo App Full Stack Project 
 
+    *for documentation, goto http://localhost:8080/swagger-ui/index.html#/ after running the java spring boot application.
+
 ## Techonologies
     - [x] React (+React Router, Bootstrap, Axios, Formik, Material UI?...) 
     - [x] Java Spring Boot(+Spring JWT Security, H2 Database...)
@@ -43,7 +45,7 @@
         [x] username's must be unique
     [x] footer
     [ ] unit testing with JUnit
-    [ ] documentation with swagger
+    [x] documentation with swagger
     [ ] .tsx in .jsx out?
     [ ] better frontend with css? (can be used material ui or bootstrap; or can be skipped entirely)
     [ ] mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)
