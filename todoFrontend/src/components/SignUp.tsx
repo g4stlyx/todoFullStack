@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { signupApi } from "./api/UserApiService";
 import { useNavigate } from "react-router-dom";
+import { SignUpFormValues } from "../types";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export default function SignUp() {
       .required("Password is required!"),
   });
 
-  const onSubmit = (values, { setSubmitting, resetForm }) => {
+  const onSubmit = (values: SignUpFormValues , { setSubmitting, resetForm }:any) => {
     const userPayload = {
       username: values.username,
       password: values.password,
@@ -94,7 +95,7 @@ export default function SignUp() {
           onSubmit={onSubmit}
         >
           {({ isSubmitting }) => (
-            <Form>
+            <Form placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
               <fieldset className="form-group" style={{ textAlign: "center" }}>
                 <label htmlFor="username">Username</label>
                 <Field

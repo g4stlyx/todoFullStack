@@ -13,11 +13,11 @@ export default function Login(){
 
     const authContext = useAuth()
 
-    function handleUsernameChange(event){
+    function handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>){
         setUsername(event.target.value);
     }
 
-    function handlePasswordChange(event){
+    function handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>){
         setPassword(event.target.value);
     }
 
@@ -48,7 +48,7 @@ export default function Login(){
                 </div>
                 <br />
                 <div>
-                    Dont't you have an account? <a href="/sign-up" name="signup">Sign Up.</a>
+                    Dont't you have an account? <a href="/sign-up">Sign Up.</a>
                 </div>
             </div>
             <br />

@@ -3,10 +3,11 @@ import { useAuth } from "./AuthContext";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Spinner } from 'react-bootstrap';
+import { DecodedToken, AuthenticationRouteProps } from "../../types";
 
 //* users already logged in shouldnt be able to goto "/login" or "/signup"
 
-export default function NonAuthenticatedRoute({ children }) {
+export default function NonAuthenticatedRoute({ children } : AuthenticationRouteProps) {
     const authContext = useAuth();
     const storedToken = authContext.storedToken;
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function NonAuthenticatedRoute({ children }) {
   
     useEffect(() => {
       if (storedToken) {
-        const decodedToken = jwtDecode(storedToken.replace("Bearer ", ""));
+        const decodedToken = jwtDecode<DecodedToken>(storedToken.replace("Bearer ", ""));
         const currentTime = Date.now() / 1000;
   
         if (decodedToken.exp > currentTime) {

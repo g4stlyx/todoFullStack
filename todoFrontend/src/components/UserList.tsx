@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getAllUsersApi, deleteUserApi} from "./api/UserApiService";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from 'react-bootstrap';
+import { User } from "../types";
 
 export default function UserList() {
 
@@ -9,7 +10,7 @@ export default function UserList() {
     refreshUsers();
   }, [])
   
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function UserList() {
       });
   }
 
-  function deleteUser(id){
+  function deleteUser(id:number){
     deleteUserApi(id)
         .then(() => {
           refreshUsers();
@@ -38,7 +39,7 @@ export default function UserList() {
         .catch((err) => console.log(err));
   }
 
-  function updateUser(username){
+  function updateUser(username:string){
       navigate(`/administrator/users/${username}`)
   }
 

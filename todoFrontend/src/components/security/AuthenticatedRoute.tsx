@@ -3,8 +3,9 @@ import { useAuth } from "./AuthContext";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Spinner } from 'react-bootstrap';
+import { AuthenticationRouteProps, DecodedToken } from "../../types";
 
-export default function AuthenticatedRoute({ children }) {
+export default function AuthenticatedRoute({ children }: AuthenticationRouteProps) {
     const authContext = useAuth();
     const storedToken = authContext.storedToken;
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function AuthenticatedRoute({ children }) {
   
     useEffect(() => {
       if (storedToken) {
-        const decodedToken = jwtDecode(storedToken.replace("Bearer ", ""));
+        const decodedToken = jwtDecode<DecodedToken>(storedToken.replace("Bearer ", ""));
         const currentTime = Date.now() / 1000;
   
         if (decodedToken.exp > currentTime) {

@@ -3,6 +3,7 @@ import { getAllTodosByUsernameApi, deleteTodoApi } from "./api/TodoApiService";
 import { useAuth } from "./security/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from 'react-bootstrap';
+import { Todo } from "../types";
 
 export default function TodoList() {
 
@@ -10,7 +11,7 @@ export default function TodoList() {
     refreshTodos();
   }, [])
   
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const authContext = useAuth();
@@ -18,6 +19,8 @@ export default function TodoList() {
   const navigate = useNavigate();
 
   function refreshTodos() {
+    if (!username) return;
+
     getAllTodosByUsernameApi(username)
       .then((response) => {
         console.log("API Response:", response);
@@ -33,7 +36,9 @@ export default function TodoList() {
       });
   }
 
-  function deleteTodo(id){
+  function deleteTodo(id:number){
+    if (!username) return;
+
     deleteTodoApi(username,id)
         .then(() => {
           refreshTodos();
@@ -41,7 +46,7 @@ export default function TodoList() {
         .catch((err) => console.log(err));
   }
 
-  function updateTodo(id){
+  function updateTodo(id:number){
       navigate(`/todos/${id}`)
   }
 
@@ -75,7 +80,7 @@ export default function TodoList() {
           </tr>
         </thead>
         <tbody>
-          {todos.map((todo) => (
+          {todos.map((todo:Todo) => (
             <tr key={todo.id}>
               {/* <td>{todo.id}</td> */}
               <td>{todo.description}</td>

@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getUserByUsernameApi,
   updateUserApi,
   createUserApi,
 } from "./api/UserApiService";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import { UserValues } from "../types";
 
 function User() {
   const { username } = useParams();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues, setInitialValues] = useState<UserValues>({
     username: "",
     password: "",
     admin: "false",
@@ -24,13 +25,13 @@ function User() {
   }, [username]);
 
   function retrieveUser() {
-    getUserByUsernameApi(username)
+    getUserByUsernameApi(username!)
       .then((response) => {
         const user = response.data;
         setInitialValues({
           username: user.username,
           password: "",
-          isAdmin: user.isAdmin ? "true" : "false",
+          admin: user.isAdmin ? "true" : "false",
         });
       })
       .catch((error) => {
@@ -39,7 +40,8 @@ function User() {
       });
   }
 
-  function onSubmit(values, { setSubmitting, resetForm }) {
+  function onSubmit(values: UserValues, { setSubmitting, resetForm }: FormikHelpers<UserValues>) {
+    console.log("Form submitted with values:", values);
     const userPayload = {
       username: values.username,
       password: values.password,
@@ -49,6 +51,7 @@ function User() {
     if (username === "-1") {
       createUserApi(userPayload)
         .then((response) => {
+          console.log("User created successfully:", response);
           setMessage("User created successfully.");
           resetForm();
           setTimeout(() => {
@@ -57,6 +60,7 @@ function User() {
           }, 2000);
         })
         .catch((error) => {
+          console.error("Error creating user:", error);
           if (error.response.status === 409) {
             setMessage("A user with that username already exists.");
           } else if (error.response.status === 400) {
@@ -80,6 +84,7 @@ function User() {
     } else {
       updateUserApi(username, userPayload)
         .then((response) => {
+          console.log("User updated successfully:", response);
           setMessage("User updated successfully.");
           resetForm();
           setTimeout(() => {
@@ -88,6 +93,7 @@ function User() {
           }, 2000);
         })
         .catch((error) => {
+          console.error("Error updating user:", error);
           if (error.response.status === 409) {
             setMessage("A user with that username already exists.");
           } else if (error.response.status === 400) {
@@ -110,8 +116,8 @@ function User() {
     }
   }
 
-  function validate(values) {
-    let errors = {};
+  function validate(values: UserValues) {
+    let errors: Partial<UserValues> = {};
 
     if (!values.username) {
       errors.username = "Username is required!";
@@ -153,7 +159,7 @@ function User() {
       if (!/[0-9]/.test(values.password)) {
         errors.password = "Password must contain at least one number!";
       }
-      if (!/[!@#$%^&*(),.?\":{}|<>]/.test(values.password)) {
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
         errors.password =
           "Password must contain at least one special character!";
       }

@@ -7,9 +7,9 @@
     - [x] Java Spring Boot(+Spring JWT Security, H2 Database...)
     - [x] MySQL, AWS
     - [ ] JUnit
-    - [ ] Swagger
+    - [x] Swagger
     - [ ] Flutter/React Native?
-    - [ ] Typescript?
+    - [x] Typescript?
 
 ## How to Run/Use the App
     *first of all, you have to have a mysql database for everything to function properly.
@@ -46,8 +46,6 @@
     [x] footer
     [ ] unit testing with JUnit
     [x] documentation with swagger
-    [ ] .tsx in .jsx out?
+    [x] .tsx in .jsx out?
     [ ] better frontend with css? (can be used material ui or bootstrap; or can be skipped entirely)
     [ ] mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)
-    [ ] backend optimization, todos should be fetched faster
-

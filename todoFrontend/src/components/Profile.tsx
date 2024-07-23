@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserByUsernameApi, updateUserApi } from "./api/UserApiService";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import { useAuth } from "./security/AuthContext";
+import { ProfileFormValues } from "../types";
 
 function Profile() {
   const authContext = useAuth();
@@ -22,7 +23,10 @@ function Profile() {
       .catch((error) => console.log(error));
   }
 
-  function onSubmit(values, { setSubmitting, resetForm }) {
+  function onSubmit(
+    values: ProfileFormValues,
+    { setSubmitting, resetForm }: FormikHelpers<ProfileFormValues>
+  ) {
     if (values.password === values.password2) {
       const updatedUser = { username, password: values.password, isAdmin };
       updateUserApi(username, updatedUser)
@@ -44,46 +48,46 @@ function Profile() {
     }
   }
 
-  function validate(values) {
-    let errors = {};
+  function validate(values: ProfileFormValues) {
+    let errors: Partial<ProfileFormValues> = {};
 
     if (!values.password || !values.password2) {
       errors.password = "Password is required!";
+    } else {
+      if (values.password.length < 8) {
+        errors.password = "Password must be at least 8 characters long!";
+      }
+
+      if (values.password.length > 64) {
+        errors.password = "Password must not exceed 64 characters!";
+      }
+
+      if (!/[A-Z]/.test(values.password)) {
+        errors.password = "Password must contain at least one uppercase letter!";
+      }
+
+      if (!/[a-z]/.test(values.password)) {
+        errors.password = "Password must contain at least one lowercase letter!";
+      }
+
+      if (!/[0-9]/.test(values.password)) {
+        errors.password = "Password must contain at least one number!";
+      }
+
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
+        errors.password = "Password must contain at least one special character!";
+      }
+
+      const commonPasswords = ["password", "123456", "qwerty", "abc123"];
+      if (commonPasswords.includes(values.password)) {
+        errors.password = "Password is too common!";
+      }
+
+      if (values.password !== values.password2) {
+        errors.password = "Passwords should match!";
+      }
     }
-  
-    if (values.password.length < 8) {
-      errors.password = "Password must be at least 8 characters long!";
-    }
-  
-    if (values.password.length > 64) {
-      errors.password = "Password must not exceed 64 characters!";
-    }
-  
-    if (!/[A-Z]/.test(values.password)) {
-      errors.password = "Password must contain at least one uppercase letter!";
-    }
-  
-    if (!/[a-z]/.test(values.password)) {
-      errors.password = "Password must contain at least one lowercase letter!";
-    }
-  
-    if (!/[0-9]/.test(values.password)) {
-      errors.password = "Password must contain at least one number!";
-    }
-  
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
-      errors.password = "Password must contain at least one special character!";
-    }
-  
-    const commonPasswords = ["password", "123456", "qwerty", "abc123"];
-    if (commonPasswords.includes(values.password)) {
-      errors.password = "Password is too common!";
-    }
-  
-    if (values.password !== values.password2) {
-      errors.password = "Passwords should match!";
-    }
-    
+
     return errors;
   }
 
@@ -91,9 +95,10 @@ function Profile() {
     <div className="container">
       <h1>Profile</h1>
       <h4>
-        Since users have only 3 parameters -only 1 changeable-, profile page seems unnecessary now lol
+        Since users have only 3 parameters -only 1 changeable-, profile page
+        seems unnecessary now lol
       </h4>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Formik
           initialValues={{ password: "", password2: "" }}
           enableReinitialize={true}
@@ -109,8 +114,13 @@ function Profile() {
                 component="div"
                 className="alert alert-warning"
               />
-              {message && <div className="alert alert-info">{message}</div>}
-              <fieldset className="form-group" style={{ textAlign: 'center' }}>
+              {message && (
+                <div className="alert alert-info">{message}</div>
+              )}
+              <fieldset
+                className="form-group"
+                style={{ textAlign: "center" }}
+              >
                 <label>Password</label>
                 <Field
                   type="password"
@@ -119,7 +129,10 @@ function Profile() {
                   style={{ width: "300px", margin: "0 auto" }}
                 />
               </fieldset>
-              <fieldset className="form-group" style={{ textAlign: 'center' }}>
+              <fieldset
+                className="form-group"
+                style={{ textAlign: "center" }}
+              >
                 <label>Confirm Password</label>
                 <Field
                   type="password"
@@ -128,7 +141,7 @@ function Profile() {
                   style={{ width: "300px", margin: "0 auto" }}
                 />
               </fieldset>
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: "center" }}>
                 <button
                   className="btn btn-success mt-3"
                   type="submit"
@@ -137,6 +150,7 @@ function Profile() {
                   Save
                 </button>
               </div>
+              <br />
             </Form>
           )}
         </Formik>
