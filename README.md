@@ -47,5 +47,5 @@
     [ ] unit testing with JUnit
     [x] documentation with swagger
     [x] .tsx in .jsx out?
-    [ ] better frontend with css? (can be used material ui or bootstrap; or can be skipped entirely)
+    [x] better frontend with css? (can be used material ui or bootstrap; or can be skipped entirely)
     [ ] mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)

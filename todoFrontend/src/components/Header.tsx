@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "./security/AuthContext";
+import "../styles/todoApp.css"
 
 export default function Header() {
   const authContext = useAuth();
@@ -7,12 +8,12 @@ export default function Header() {
   const isAdmin = authContext.isAdmin;
 
   return (
-    <div className="Header border-bottom border-light border-5 mb-5 p-2">
+    <div className="Header border-bottom border-light border-5 mb-5 p-2 bg-dark text-white">
       <div className="container">
         <div className="row">
-          <nav className="navbar navbar-expand-lg">
+          <nav className="navbar navbar-expand-lg navbar-dark">
             <a
-              className="navbar-brand ms-2 fs-2 fw-bold text-black"
+              className="navbar-brand ms-2 fs-2 fw-bold text-white"
               href="https://g4stlyx.github.io"
             >
               g4stly
@@ -21,13 +22,13 @@ export default function Header() {
               <ul className="navbar-nav">
                 <li className="nav-item fs-5">
                   {isAuthenticated && 
-                  <Link className="nav-link" to="/welcome/g4stly">
+                  <Link className="nav-link text-white" to="/welcome/g4stly">
                     Home
                   </Link>}
                 </li>
                 <li className="nav-item fs-5">
                   {isAuthenticated && 
-                  <Link className="nav-link" to="/todos">
+                  <Link className="nav-link text-white" to="/todos">
                     Todos
                   </Link>}
                 </li>
@@ -35,22 +36,22 @@ export default function Header() {
             </div>
             <ul className="navbar-nav">
               <li className="nav-item fs-5">
-                {!isAuthenticated && <Link className="nav-link" to="/login">
+                {!isAuthenticated && <Link className="nav-link text-white" to="/login">
                   Login
                 </Link>}
               </li>
               <li className="nav-item fs-5">
-                {isAdmin && isAuthenticated && <Link className="nav-link" to="/administrator/users">
+                {isAdmin && isAuthenticated && <Link className="nav-link text-white" to="/administrator/users">
                   Users
                 </Link>}
               </li>
               <li className="nav-item fs-5">
-                {isAuthenticated && <Link className="nav-link" to="/profile">
+                {isAuthenticated && <Link className="nav-link text-white" to="/profile">
                   Profile
                 </Link>}
               </li>
               <li className="nav-item fs-5">
-                {isAuthenticated && <Link className="nav-link" to="/logout" onClick={authContext.logout}>
+                {isAuthenticated && <Link className="nav-link text-white" to="/logout" onClick={authContext.logout}>
                   Logout
                 </Link>}
               </li>
