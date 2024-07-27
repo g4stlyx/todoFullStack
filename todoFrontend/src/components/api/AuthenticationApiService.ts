@@ -1,10 +1,10 @@
 import { apiClient } from "./ApiClient";
 
-export const executeJwtAuthenticationService = async (username, password) => {
+export const executeJwtAuthenticationService = async (username:string, password:string) => {
     try {
         const response = await apiClient.post("/authenticate", {username, password});
         return response;
-    } catch (error) {
+    } catch (error:any) {
         if (error.response) {
             console.error('Error response:', error.response.data);
             console.error('Error status:', error.response.status);
