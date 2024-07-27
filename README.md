@@ -6,7 +6,7 @@
     - [x] React (+React Router, Bootstrap, Axios, Formik...) 
     - [x] Java Spring Boot(+Spring JWT Security...)
     - [x] MySQL, AWS
-    - [ ] JUnit, Jest
+    - [ ] JUnit, Mockito, Jest
     - [x] Swagger
     - [x] Typescript
 
