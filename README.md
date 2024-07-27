@@ -3,13 +3,12 @@
     *for documentation, goto http://localhost:8080/swagger-ui/index.html#/ after running the java spring boot application.
 
 ## Techonologies
-    - [x] React (+React Router, Bootstrap, Axios, Formik, Material UI?...) 
-    - [x] Java Spring Boot(+Spring JWT Security, H2 Database...)
+    - [x] React (+React Router, Bootstrap, Axios, Formik...) 
+    - [x] Java Spring Boot(+Spring JWT Security...)
     - [x] MySQL, AWS
-    - [ ] JUnit
+    - [ ] JUnit, Jest
     - [x] Swagger
-    - [ ] Flutter/React Native?
-    - [x] Typescript?
+    - [x] Typescript
 
 ## How to Run/Use the App
     *first of all, you have to have a mysql database for everything to function properly.
@@ -23,11 +22,6 @@
     
     * to run the frontend part, open 02-Frontend folder:
         * run `npm i || npm start` in terminal
-
-    * to run the mobile part (if exists), open 03-Mobile folder:
-        * run your emulator from Android Studio or connect your own phone.
-        * if you choose to connect your own phone, activate the "developer mode" and allow "USB debugging".
-        * run `flutter pub get || flutter run` in terminal
 
 ## What's next?
     [x] database connection with mysql and aws
@@ -44,8 +38,9 @@
         [x] input validations in frontend (use <Formik validate={validate}>)
         [x] username's must be unique
     [x] footer
-    [ ] unit testing with JUnit
+    [ ] unit testing
+       [ ] java unit tests using JUnit
+       [ ] js/ts unit tests using Jest
     [x] documentation with swagger
     [x] .tsx in .jsx out?
     [x] better frontend with css? (can be used material ui or bootstrap; or can be skipped entirely)
-    [ ] mobile version with Flutter (or React Native if it seems ez -i dont think it will tho-)
