@@ -39,7 +39,7 @@
         [x] username's must be unique
     [x] footer
     [ ] unit testing
-       [ ] java unit tests using JUnit
+       [x] java unit tests using JUnit
        [ ] js/ts unit tests using Jest
     [x] documentation with swagger
     [x] .tsx in .jsx out?
