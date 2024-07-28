@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "./security/AuthContext";
 import "../styles/todoApp.css"
+import React from "react";
 
 export default function Header() {
   const authContext = useAuth();

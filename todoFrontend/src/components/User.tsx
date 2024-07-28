@@ -7,6 +7,7 @@ import {
 } from "./api/UserApiService";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import { UserValues } from "../types";
+import React from "react";
 
 function User() {
   const { username } = useParams();

@@ -4,6 +4,7 @@ import { getUserByUsernameApi, updateUserApi } from "./api/UserApiService";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import { useAuth } from "./security/AuthContext";
 import { ProfileFormValues } from "../types";
+import React from "react";
 
 function Profile() {
   const authContext = useAuth();

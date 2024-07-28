@@ -1,4 +1,5 @@
 import { ErrorProps } from "../types";
+import React from 'react';
 
 export default function Error({ message, status }: ErrorProps) {
 

@@ -6,7 +6,7 @@
     - [x] React (+React Router, Bootstrap, Axios, Formik...) 
     - [x] Java Spring Boot(+Spring JWT Security...)
     - [x] MySQL, AWS
-    - [ ] JUnit, Mockito, Jest
+    - [x] JUnit, Mockito, Jest
     - [x] Swagger
     - [x] Typescript
 
@@ -21,7 +21,7 @@
         * simply compile and run the java app from your IDE
     
     * to run the frontend part, open 02-Frontend folder:
-        * run `npm i || npm start` in terminal
+        * run `npm i --force || npm start` in terminal
 
 ## What's next?
     [x] database connection with mysql and aws
@@ -38,9 +38,9 @@
         [x] input validations in frontend (use <Formik validate={validate}>)
         [x] username's must be unique
     [x] footer
-    [ ] unit testing
+    [x] unit testing
        [x] java unit tests using JUnit
-       [ ] js/ts unit tests using Jest
+       [x] js/ts unit tests using Jest
     [x] documentation with swagger
     [x] .tsx in .jsx out?
     [x] better frontend with css? (can be used material ui or bootstrap; or can be skipped entirely)
